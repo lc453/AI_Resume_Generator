@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Job Fit Analyzer</title>
+
+    <link
+        rel="stylesheet"
+        href="/static/style.css"
+    >
+</head>
+
+
+<body>
+
+<main class="container">
+
+    <header class="header">
+
+        <h1>Job Fit Analyzer</h1>
+
+        <p>
+            Analyze a job posting against your experience and skills.
+        </p>
+
+    </header>
+
+
+    <!-- INPUTS -->
+
+    <section class="input-grid">
+
+        <div class="input-card">
+
+            <label for="job-description">
+                Job Description
+            </label>
+
+            <textarea
+                id="job-description"
+                placeholder="Paste the complete job description here..."
+            ></textarea>
+
+        </div>
+
+
+        <div class="input-card">
+
+            <label for="candidate-profile">
+                Your Background
+            </label>
+
+            <textarea
+                id="candidate-profile"
+                placeholder="Enter your education, employment history, skills, projects, programming languages, tools, and other relevant experience..."
+            ></textarea>
+
+        </div>
+
+    </section>
+
+
+    <!-- BUTTONS -->
+
+    <div class="action-area">
+
+        <div class="button-row">
+
+            <button id="analyze-button">
+                Analyze Job
+            </button>
+
+            <button id="create-button">
+                Create Resume
+            </button>
+
+        </div>
+
+        <p id="status-message"></p>
+
+    </div>
+
+
+    <!-- ANALYSIS RESULTS -->
+
+    <section class="results-grid">
+
+        <div class="result-card">
+
+            <h2>Estimated Salary</h2>
+
+            <div
+                id="salary-result"
+                class="result-value locked"
+            >
+                —
+            </div>
+
+            <p class="result-description">
+                Estimated annual compensation
+            </p>
+
+        </div>
+
+
+        <div class="result-card">
+
+            <h2>Fit Rating</h2>
+
+            <div
+                id="fit-result"
+                class="result-value locked"
+            >
+                —
+            </div>
+
+            <p class="result-description">
+                Overall match with the position
+            </p>
+
+        </div>
+
+    </section>
+
+    <!-- RESUME SETTINGS -->
+
+    <section id="resume-settings" class="settings-section">
+
+        <div class="settings-header">
+            <h2>Resume Settings</h2>
+            <p>
+                Customize the generated resume and its formatting.
+            </p>
+        </div>
+
+
+        <div class="settings-grid">
+
+            <!-- Font -->
+
+            <div class="setting-card">
+
+                <label for="font-select">
+                    Font
+                </label>
+
+                <select id="font-select">
+
+                    <option value="Arial">
+                        Arial
+                    </option>
+
+                    <option value="Calibri">
+                        Calibri
+                    </option>
+
+                    <option value="Times New Roman">
+                        Times New Roman
+                    </option>
+
+                    <option value="Georgia">
+                        Georgia
+                    </option>
+
+                    <option value="Helvetica">
+                        Helvetica
+                    </option>
+
+                    <option value="Garamond">
+                        Garamond
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <!-- Horizontal margin -->
+
+            <div class="setting-card">
+
+                <label for="horizontal-margin">
+                    Horizontal Margin (inches)
+                </label>
+
+                <input
+                    id="horizontal-margin"
+                    type="number"
+                    min="0.1"
+                    max="2"
+                    step="0.05"
+                    value="0.5"
+                >
+
+            </div>
+
+
+            <!-- Vertical margin -->
+
+            <div class="setting-card">
+
+                <label for="vertical-margin">
+                    Vertical Margin (inches)
+                </label>
+
+                <input
+                    id="vertical-margin"
+                    type="number"
+                    min="0.1"
+                    max="2"
+                    step="0.05"
+                    value="0.5"
+                >
+
+            </div>
+
+
+            <!-- Line spacing -->
+
+            <div class="setting-card">
+
+                <label for="line-spacing">
+                    Line Spacing
+                </label>
+
+                <input
+                    id="line-spacing"
+                    type="number"
+                    min="0.8"
+                    max="2"
+                    step="0.05"
+                    value="1.1"
+                >
+
+            </div>
+
+        </div>
+
+
+        <!-- Embellishment -->
+
+        <div class="setting-wide toggle-hidden">
+
+            <label for="embellishment">
+                Embellishment
+            </label>
+
+            <div class="slider-labels">
+
+                <span>1 — Very Humble</span>
+
+                <span id="embellishment-value">
+                    4 / 7
+                </span>
+
+                <span>7 — Very Exaggerated</span>
+
+            </div>
+
+            <input
+                id="embellishment"
+                type="range"
+                min="1"
+                max="7"
+                value="4"
+            >
+
+        </div>
+
+
+        <!-- Additional instructions -->
+
+        <div class="setting-wide">
+
+            <label for="additional-instructions">
+                Additional Instructions
+            </label>
+
+            <textarea
+                id="additional-instructions"
+                class="instructions-textarea"
+                placeholder="Give additional instructions for the resume. For example: emphasize my Python experience, make my research experience more prominent, avoid emphasizing my healthcare experience..."
+            ></textarea>
+
+        </div>
+
+
+        <!-- Rendering controls -->
+
+        <div class="settings-buttons">
+
+            <button
+                id="regenerate-button"
+                class="secondary-button"
+            >
+                Regenerate Resume
+            </button>
+
+            <button
+                id="rerender-button"
+                class="secondary-button"
+            >
+                Rerender With Settings
+            </button>
+
+        </div>
+
+    </section>
+
+
+    <!-- RESUME PREVIEW -->
+
+    <section
+        id="resume-section"
+        class="resume-section hidden"
+    >
+
+        <div class="resume-header">
+
+            <div>
+
+                <h2>Resume Preview</h2>
+
+                <p>
+                    Preview of the generated Word document.
+                </p>
+
+            </div>
+
+
+            <button
+                id="download-button"
+                class="secondary-button"
+            >
+                Download DOCX
+            </button>
+
+        </div>
+
+
+        <div
+            id="resume-preview"
+            class="resume-preview"
+        >
+        </div>
+
+    </section>
+
+
+</main>
+
+
+<!--
+    DOCX renderer
+
+    Must be loaded before app.js.
+-->
+<script
+    src="https://unpkg.com/jszip/dist/jszip.min.js"
+></script>
+
+<script
+    src="https://unpkg.com/docx-preview/dist/docx-preview.min.js"
+></script>
+
+<script
+    src="/static/app.js"
+></script>
+
+</body>
+
+</html>
